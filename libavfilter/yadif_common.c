@@ -43,6 +43,9 @@ static int return_frame(AVFilterContext *ctx, int is_second)
             return AVERROR(ENOMEM);
 
         av_frame_copy_props(yadif->out, yadif->cur);
+        // Don't copy Closed Captioning
+        av_frame_remove_side_data(yadif->out, AV_FRAME_DATA_A53_CC);
+
         yadif->out->interlaced_frame = 0;
         if (yadif->current_field == YADIF_FIELD_BACK_END)
             yadif->current_field = YADIF_FIELD_END;
